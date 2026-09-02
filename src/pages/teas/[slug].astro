@@ -1,5 +1,6 @@
 ---
 import "../../styles/global.css";
+import { marked } from "marked";
 import { teaTypes } from "../../data/teaType";
 import { getCollection } from "astro:content";
 
@@ -35,6 +36,8 @@ const theineInfo = {
 
 const description =
     tea.data.longDescription ?? tea.data.shortDescription;
+
+const descriptionHtml = marked.parse(description);
 ---
 
 <html lang="fr">
@@ -72,7 +75,7 @@ const description =
         {description && (
                 <div class="info-section">
                     <h2>Description</h2>
-                    <p>{description}</p>
+                    <div class="description" set:html={descriptionHtml}></div>
                 </div>
         )}
 
