@@ -1,6 +1,6 @@
 ---
 name: Bancha Hojicha
-brand: Palais des thés
+brand: Palais des Thés
 type: green
 origin: Japon
 ingredients:
