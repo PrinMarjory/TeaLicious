@@ -11,5 +11,5 @@ shortDescription: Ce GUNPOWDER THE VERT NATURE est composé des plus jeunes
   journée.
 longDescription: ""
 temperature: 100
-steepingTime: ""
+steepingTime: 3
 ---
