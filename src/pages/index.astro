@@ -1,0 +1,101 @@
+---
+import TeaCard from "../components/TeaCard.astro";
+import TeaTabs from "../components/TeaTabs.astro";
+import "../styles/global.css";
+import {getCollection} from "astro:content";
+
+const teas = await getCollection("teas");
+const title = "TeaLicious";
+---
+
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <main>
+      <header class="site-header">
+        <img
+            src="/images/tealicious-logo.png"
+            alt=""
+            class="site-logo"
+        />
+
+        <div class="site-title">
+          <h1>{title}</h1>
+          <p>Mon carnet de thés</p>
+        </div>
+      </header>
+
+      <TeaTabs />
+
+      <section class="tea-grid">
+        {teas.map((tea) => (
+            <TeaCard tea={tea} />
+        ))}
+      </section>
+    </main>
+  </body>
+
+  <style>
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 45px;
+    }
+
+    .site-logo {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+    }
+
+    .site-title {
+      text-align: left;
+      margin-right: 30px;
+    }
+
+    .site-header h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 4rem;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+    }
+
+    .site-header p {
+      margin: 10px 0 0;
+      color: var(--color-text-muted);
+      font-family: var(--font-script);
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 700px) {
+      .site-header {
+        gap: 14px;
+        margin-bottom: 35px;
+      }
+
+      .site-logo {
+        width: 75px;
+        height: 75px;
+      }
+
+      .site-header h1 {
+        font-size: 2.9rem;
+      }
+
+      .site-header p {
+        margin-top: 7px;
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</html>

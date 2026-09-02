@@ -1,0 +1,320 @@
+---
+import "../../styles/global.css";
+import { teaTypes } from "../../data/teaType";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const teas = await getCollection("teas");
+
+    return teas.map((tea) => ({
+        params: {slug: tea.id},
+        props: {tea},
+    }));
+}
+
+const {tea} = Astro.props;
+
+const theineInfo = {
+    none: {
+        cups: 0,
+        label: "Sans théine",
+    },
+    low: {
+        cups: 1,
+        label: "Faible",
+    },
+    medium: {
+        cups: 2,
+        label: "Moyenne",
+    },
+    high: {
+        cups: 3,
+        label: "Élevée",
+    },
+};
+
+const description =
+    tea.data.longDescription ?? tea.data.shortDescription;
+---
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>{tea.data.name} — TeaLicious</title>
+</head>
+
+<body>
+<main>
+    <a href="/" class="back-link">
+        <span>←</span>
+        Retour à ma collection
+    </a>
+
+    <header class="tea-header">
+        <p class="tea-type">
+            {teaTypes.find((type) => type.id === tea.data.type)?.label}
+        </p>
+
+        <h1>{tea.data.name}</h1>
+
+        <p class="tea-brand">{tea.data.brand}</p>
+    </header>
+
+    <section class="tea-info">
+        {tea.data.origin && (
+                <div class="info-section">
+                    <h2>Origine</h2>
+                    <p>{tea.data.origin}</p>
+                </div>
+        )}
+
+        {description && (
+                <div class="info-section">
+                    <h2>Description</h2>
+                    <p>{description}</p>
+                </div>
+        )}
+
+        {tea.data.ingredients && (
+                <div class="info-section">
+                    <h2>Notes / ingrédients</h2>
+
+                    <div class="ingredient-list">
+                        {tea.data.ingredients.map((ingredient) => (
+                                <span>{ingredient}</span>
+                        ))}
+                    </div>
+                </div>
+        )}
+    </section>
+
+    <section class="preparation">
+        <h2>Préparation</h2>
+
+        <div class="preparation-grid">
+
+            {tea.data.temperature && (
+                    <div class="preparation-item">
+                        <span class="preparation-icon">🌡️</span>
+                        <strong>{tea.data.temperature} °C</strong>
+                        <small>Température</small>
+                    </div>
+            )}
+
+            {tea.data.steepingTime && (
+                    <div class="preparation-item">
+                        <span class="preparation-icon">⏱️</span>
+                        <strong>{tea.data.steepingTime} min</strong>
+                        <small>Infusion</small>
+                    </div>
+            )}
+        </div>
+    </section>
+</main>
+</body>
+</html>
+
+<style>
+    main {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        color: var(--color-text-muted);
+        text-decoration: none;
+
+        font-size: 0.9rem;
+
+        transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+    }
+
+    .back-link:hover {
+        color: var(--color-primary);
+        transform: translateX(-3px);
+    }
+
+    .back-link span {
+        font-size: 1.1rem;
+    }
+
+    .tea-header {
+        text-align: center;
+        margin: 55px 0 30px;
+    }
+
+    .tea-type {
+        display: inline-block;
+
+        margin: 0 0 14px;
+        padding: 6px 11px;
+
+        border-radius: 999px;
+
+        background: var(--color-primary-light);
+        color: var(--color-primary);
+
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .tea-header h1 {
+        margin: 0;
+        font-size: 3.2rem;
+        letter-spacing: -0.03em;
+    }
+
+    .tea-brand {
+        margin: 10px 0 0;
+
+        color: var(--color-text-muted);
+        font-size: 1.05rem;
+    }
+
+    .tea-info {
+        margin-top: 10px;
+    }
+
+    .info-section {
+        padding: 25px 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .info-section h2 {
+        margin: 0 0 8px;
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .info-section p {
+        margin: 0;
+        line-height: 1.65;
+    }
+
+    .ingredient-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .ingredient-list span {
+        padding: 6px 11px;
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+        color: var(--color-text);
+        font-size: 0.85rem;
+    }
+
+    .preparation {
+        margin: 10px 0 0;
+    }
+
+    .preparation h2 {
+        margin: 25px 0 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-muted);
+    }
+
+    .preparation-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preparation-item {
+        min-height: 105px;
+        padding: 20px 12px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        text-align: center;
+    }
+
+    .preparation-item + .preparation-item {
+        border-left: 1px solid var(--color-border);
+    }
+
+    .preparation-icon {
+        font-size: 0;
+    }
+
+    /* On retire les emojis de préparation */
+    .preparation-icon::before {
+        content: "";
+    }
+
+    .preparation-item strong {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .preparation-item small {
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 700px) {
+        main {
+            margin: 25px auto;
+            padding: 0 18px;
+        }
+
+        .back-link {
+            font-size: 0.9rem;
+        }
+
+        .tea-header {
+            margin: 45px 0 20px;
+        }
+
+        .tea-header h1 {
+            font-size: 2.4rem;
+        }
+
+        .tea-brand {
+            font-size: 1rem;
+        }
+
+        .info-card {
+            gap: 14px;
+            padding: 18px;
+        }
+
+        .info-card-icon {
+            width: 38px;
+            height: 38px;
+        }
+
+
+
+        .preparation-grid {
+            gap: 12px;
+        }
+
+        .preparation-item {
+            min-height: 105px;
+            padding: 15px 8px;
+        }
+    }
+</style>

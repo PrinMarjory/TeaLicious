@@ -1,0 +1,152 @@
+---
+import { teaTypes } from "../data/teaType.ts";
+---
+
+<div class="tea-tabs-wrapper has-more">
+    <nav class="tea-tabs" aria-label="Types de thé">
+        {teaTypes.map((type) => (
+                <button
+                        type="button"
+                        class="tea-tab"
+                        data-type={type.id}
+                        aria-pressed={type.id === "all"}
+                >
+                    {type.label}
+                </button>
+        ))}
+    </nav>
+</div>
+
+<script>
+    const tabs = document.querySelectorAll<HTMLButtonElement>(".tea-tab");
+    const cards = document.querySelectorAll<HTMLElement>(".tea-card-link");
+
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const selectedType = tab.dataset.type;
+
+            tabs.forEach((otherTab) => {
+                otherTab.setAttribute(
+                    "aria-pressed",
+                    String(otherTab === tab)
+                );
+            });
+
+            cards.forEach((card) => {
+                const matches =
+                    selectedType === "all" ||
+                    card.dataset.teaType === selectedType;
+
+                card.hidden = !matches;
+            });
+        });
+    });
+</script>
+
+<script>
+    const tabsContainer = document.querySelector<HTMLElement>(".tea-tabs");
+    const tabsWrapper = document.querySelector<HTMLElement>(".tea-tabs-wrapper");
+
+    if (tabsContainer && tabsWrapper) {
+        const updateScrollIndicator = () => {
+            const hasMore =
+                tabsContainer.scrollLeft + tabsContainer.clientWidth <
+                tabsContainer.scrollWidth - 1;
+
+            tabsWrapper.classList.toggle("has-more", hasMore);
+        };
+
+        tabsContainer.addEventListener("scroll", updateScrollIndicator);
+
+        window.addEventListener("resize", updateScrollIndicator);
+
+        updateScrollIndicator();
+    }
+</script>
+
+<style>
+    .tea-tabs-wrapper {
+        position: relative;
+    }
+
+    .tea-tabs {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+
+        margin: 35px 0;
+        padding: 4px 2px 10px;
+
+        scrollbar-width: none;
+    }
+
+    .tea-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tea-tab {
+        flex: 0 0 auto;
+
+        padding: 10px 17px;
+
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+
+        background: transparent;
+        color: var(--color-text-muted);
+
+        font-family: inherit;
+        font-size: 0.9rem;
+
+        cursor: pointer;
+
+        transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+    }
+
+    .tea-tab:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    .tea-tab[aria-pressed="true"] {
+        border-color: var(--color-primary);
+        background: var(--color-primary);
+        color: white;
+        font-weight: 600;
+    }
+
+    .tea-tab:active {
+        transform: scale(0.97);
+    }
+
+    @media (max-width: 700px) {
+        .tea-tabs-wrapper {
+            position: relative;
+        }
+
+        .tea-tabs-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 35px;
+            height: 42px;
+
+            background: linear-gradient(
+                    to right,
+                    transparent,
+                    var(--color-background)
+            );
+
+            pointer-events: none;
+        }
+
+        .tea-tabs-wrapper:not(.has-more)::after {
+            display: none;
+        }
+    }
+</style>

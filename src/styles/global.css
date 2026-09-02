@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+    --color-background: #f7f4ee;
+    --color-surface: #fffdf9;
+    --color-text: #3d3832;
+    --color-text-muted: #756e65;
+
+    --color-primary: #6f7d5c;
+    --color-primary-light: #e7ebdf;
+
+    --color-border: #ddd8cf;
+
+    --font-body: "Manrope", "Segoe UI", sans-serif;
+    --font-display: "Manrope", "Segoe UI", sans-serif;
+    --font-script: "Caveat", "Segoe Print", cursive;
+
+    --radius-small: 10px;
+    --radius-medium: 16px;
+    --radius-large: 24px;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+main {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+h1,
+h2,
+h3 {
+    color: var(--color-text);
+}
+
+h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+}
+
+
+
+.tea-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 700px) {
+    main {
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .tea-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+}
