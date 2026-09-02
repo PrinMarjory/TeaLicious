@@ -30,6 +30,12 @@ teaTypes.find((type) => type.id === tea.data.type)?.label ?? tea.data.type;
       {tea.data.shortDescription && (
           <p class="tea-description">{tea.data.shortDescription}</p>
       )}
+
+      {tea.data.ingredients && tea.data.ingredients.length > 0 && (
+          <p class="tea-ingredients">
+            {tea.data.ingredients.join(" · ")}
+          </p>
+      )}
     </div>
 
     <span class="tea-card-arrow">→</span>
@@ -111,6 +117,13 @@ teaTypes.find((type) => type.id === tea.data.type)?.label ?? tea.data.type;
     color: var(--color-text-muted);
     line-height: 1.5;
     font-size: 0.9rem;
+  }
+
+  .tea-ingredients {
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
   .tea-card-arrow {
