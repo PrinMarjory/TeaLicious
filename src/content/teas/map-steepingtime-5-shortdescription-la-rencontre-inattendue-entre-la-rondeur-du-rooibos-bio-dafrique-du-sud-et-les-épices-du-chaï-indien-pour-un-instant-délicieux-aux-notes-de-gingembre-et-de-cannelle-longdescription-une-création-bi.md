@@ -8,7 +8,7 @@ ingredients:
   - cannelle
   - gingembre
   - cardamome
-  - clousdegirofle
+  - clous de girofle
   - poivre
   - ananas
   - souci
