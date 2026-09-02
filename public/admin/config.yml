@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: PrinMarjory/TeaLicious
   branch: main
 
 media_folder: "public/images"
