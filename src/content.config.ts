@@ -17,6 +17,7 @@ const teas = defineCollection({
             "white",
             "oolong",
             "puerh",
+            "rooibos",
             "infusion",
         ]),
         origin: z.string().optional(),

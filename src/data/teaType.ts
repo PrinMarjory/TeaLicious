@@ -5,5 +5,6 @@ export const teaTypes = [
     { id: "white", label: "Thé blanc" },
     { id: "oolong", label: "Oolong" },
     { id: "puerh", label: "Pu-erh" },
+    { id: "rooibos", label: "Rooibos" },
     { id: "infusion", label: "Infusions" },
 ];

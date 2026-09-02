@@ -36,6 +36,8 @@ collections:
             value: "oolong"
           - label: "Pu-erh"
             value: "puerh"
+          - label: "Rooibos"
+            value: "rooibos"
           - label: "Infusion"
             value: "infusion"
 
